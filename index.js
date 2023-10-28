@@ -1,7 +1,26 @@
-var http = require('http');
+var express = require('express');
+var app = express();
 
-var server = http.createServer(function(req,res){
-    res.end("Hello World");
-});
+/*app.get("/",function(req,res){
+    //res.send("Welcome!")
+    res.sendFile(__dirname + "/index.html")
+})
 
-server.listen(3001)
+app.get("/json",function(req,res){
+    var data = [
+        {
+            "id":1,
+            "name":"Demo",
+        }
+    ]
+    res.send({book:data})
+})*/
+
+var homeRouter = require('./app/routes/home.router')
+
+var bookRouter = require('./app/routes/book.routes')
+
+app.use('/',homeRouter)
+app.use('/',bookRouter)
+
+app.listen(3001)
