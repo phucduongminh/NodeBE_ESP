@@ -1,26 +1,13 @@
 var express = require('express');
 var app = express();
 
-/*app.get("/",function(req,res){
-    //res.send("Welcome!")
-    res.sendFile(__dirname + "/index.html")
-})
+var bodyParser = require('body-parser')
 
-app.get("/json",function(req,res){
-    var data = [
-        {
-            "id":1,
-            "name":"Demo",
-        }
-    ]
-    res.send({book:data})
-})*/
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
 
-var homeRouter = require('./app/routes/home.router')
+require('./app/routes/home.router')(app)
 
-var bookRouter = require('./app/routes/book.routes')
-
-app.use('/',homeRouter)
-app.use('/',bookRouter)
+require('./app/routes/book.routes')(app)
 
 app.listen(3001)
