@@ -1,13 +1,13 @@
-var express = require('express');
-var app = express();
+let express = require('express');
+let app = express();
 
-var bodyParser = require('body-parser')
+let bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-require('./app/routes/home.router')(app)
+require('./src/routes/home.router')(app)
 
-require('./app/routes/book.routes')(app)
+require('./src/routes/remote.routes')(app)
 
 app.listen(3001)
