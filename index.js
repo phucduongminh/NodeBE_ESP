@@ -1,13 +1,11 @@
-var express = require('express');
-var app = express();
+// index.js
+const express = require('express');
+const cors = require('cors');
 
-var bodyParser = require('body-parser')
+const app = express();
+app.use(express.json());
+app.use(cors());
 
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
+require('./app/routes/user.routes')(app);
 
-require('./app/routes/home.router')(app)
-
-require('./app/routes/book.routes')(app)
-
-app.listen(3001)
+app.listen(3001);
