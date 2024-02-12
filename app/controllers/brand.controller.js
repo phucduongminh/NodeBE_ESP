@@ -14,7 +14,11 @@ exports.listbrand = function(req,res){
               .status(401)
               .json({ success: false, message: 'Not Found Brand!' });
         } else {
-            return res.send(brand);
+            return res.status(200).json({
+                success: true,
+                message: 'Brand Founded',
+                brands: brand,
+            });
         }
     })
 }
