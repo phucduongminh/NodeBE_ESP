@@ -17,4 +17,16 @@ Brand.getByProtocol = function(protocol,callback){
     })
 }
 
+Brand.getAll = function(callback){
+    const sql='SELECT Brand FROM ac_protocol'
+    db.query(sql,(err,result) => {
+        if(err){
+            console.error(err)
+            callback(err,null)
+        } else {
+            callback(null,result)
+        }
+    })
+}
+
 module.exports = Brand;
