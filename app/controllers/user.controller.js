@@ -42,9 +42,27 @@ exports.register = async function (req, res) {
   if (!name || !email || !password) {
     return res.status(400).json({ success: false, message: 'Missing fields' });
   }
+
+  // Convert getByEmail to return a Promise
+  const getByEmail = (email) => {
+    return new Promise((resolve, reject) => {
+      User.getByEmail(email, (err, user) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(user);
+        }
+      });
+    });
+  };
+
   try {
+    const user = await getByEmail(email);
+    if (user) {
+      return res.status(400).json({ success: false, message: 'Email already exists' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    
     User.create({ name, email, password: hashedPassword }, (err, userId) => {
       if (err) {
         return res.status(500).json({ success: false, message: 'Database error' });
