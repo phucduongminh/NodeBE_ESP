@@ -1,5 +1,6 @@
 // index.js
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const cors = require('cors');
 require('dotenv').config();
@@ -18,12 +19,15 @@ for (let k in interfaces) {
 }
 
 const app = express();
-app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 require('./app/routes/user.routes')(app);
 require('./app/routes/brand.routes')(app);
 require('./app/routes/signal.routes')(app);
+require('./app/routes/speech-to-text/speech.routes')(app);
+require('./app/routes/text-processor/processor.routes')(app);
 
 const PORT = process.env.PORT || 3001;
 const DOMAIN = process.env.ADDRESS || addresses[0];
