@@ -2,6 +2,10 @@ const sentences = [
     'turn on the first air conditioner',
     'turn off the second light',
     'invalid sentence example',
+    'hello',
+    'hi',
+    '',
+    'turn on the second air conditioner',
     // Add more sentences...
   ];
   
@@ -9,6 +13,10 @@ const sentences = [
     'valid',
     'valid',
     'invalid',
+    'invalid',
+    'invalid',
+    'invalid',
+    'valid'
     // Add more labels...
   ];
   
