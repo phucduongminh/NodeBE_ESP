@@ -31,6 +31,9 @@ function tokenize(sentence) {
           i++;
         }
         break;
+      case 'conditioner':
+        tokens.push('AC');
+        break;
       case 'light':
         tokens.push('LIGHT');
         break;
