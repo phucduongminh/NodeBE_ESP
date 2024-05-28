@@ -4,16 +4,14 @@ require('dotenv').config();
 const client = new speech.SpeechClient();
 
 exports.transcribe = (async (req, res) => {
-  //const audioContent = req.body.audio;
-  const gcsUri = 'gs://cloud-samples-data/speech/brooklyn_bridge.raw';
+  const audioContent = Buffer.from(req.body.audio, 'base64');
   const config = {
     encoding: 'LINEAR16',
     sampleRateHertz: 16000,
     languageCode: 'en-US',
   };
   const audio = {
-    //content: audioContent,
-    uri: gcsUri,
+    content: audioContent.toString('base64'), // Ensure this is in base64
   };
   const request = {
     config: config,
@@ -24,6 +22,6 @@ exports.transcribe = (async (req, res) => {
   const transcription = response.results
     .map(result => result.alternatives[0].transcript)
     .join('\n');
-    console.log(`Transcription: ${transcription}`);
+  console.log(`Transcription: ${transcription}`);
   res.send(transcription);
 });

@@ -19,9 +19,9 @@ for (let k in interfaces) {
 }
 
 const app = express();
-app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 require('./app/routes/user.routes')(app);
 require('./app/routes/brand.routes')(app);
