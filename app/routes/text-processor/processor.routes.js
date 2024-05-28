@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const textProcessController = require('../controllers/text-processor/processor.controller');
+const textProcessController = require('../../controllers/text-processor/processor.controller');
 
 router.post('/api/voice/process', textProcessController.process);
 

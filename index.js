@@ -27,6 +27,7 @@ require('./app/routes/user.routes')(app);
 require('./app/routes/brand.routes')(app);
 require('./app/routes/signal.routes')(app);
 require('./app/routes/speech-to-text/speech.routes')(app);
+require('./app/routes/text-processor/processor.routes')(app);
 
 const PORT = process.env.PORT || 3001;
 const DOMAIN = process.env.ADDRESS || addresses[0];
