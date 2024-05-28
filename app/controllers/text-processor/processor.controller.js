@@ -1,35 +1,35 @@
 const tf = require("@tensorflow/tfjs-node");
+const { tokenize, tokenizeSentence, padSequences } = require("../../../training-model/tokenizer");
+const { vocabulary } = require("../../../training-model/data");
 
 let classificationModel;
-let tokenizationModel;
 
-tf.loadLayersModel("../../../training-model/classification_model.json").then((loadedModel) => {
-  classificationModel = loadedModel;
-});
+async function loadModels() {
+  classificationModel = await tf.loadLayersModel("file://./classification_model/model.json");
+}
 
-tf.loadLayersModel("../../../training-model/tokenization_model.json").then((loadedModel) => {
-  tokenizationModel = loadedModel;
-});
+loadModels();
 
-exports.process = ((req, res) => {
+const maxLen = 10; // Use the same maxLen as during training
+
+exports.process = async (req, res) => {
   const { text } = req.body;
   if (!text) {
-    return res
-      .status(400)
-      .json({ error: 'Missing "text" property in request body' });
+    return res.status(400).json({ error: 'Missing "text" property in request body' });
   }
 
-  const inputTensor = tf.tensor([text]);
+  const tokenizedInput = tokenizeSentence(text);
+  const paddedInput = padSequences([tokenizedInput], maxLen);
+  const inputTensor = tf.tensor2d(paddedInput, [1, maxLen]);
+
   const classificationResult = classificationModel.predict(inputTensor);
+  const isValid = classificationResult.dataSync()[0] > 0.5;
 
-  if (classificationResult.dataSync()[0] < 0.5) {
-    return res
-      .status(400)
-      .json({ error: 'Invalid command' });
+  if (!isValid) {
+    return res.status(400).json({ error: 'Invalid command' });
   }
 
-  const tokenizationResult = tokenizationModel.predict(inputTensor);
-  const tokenizedText = tokenizationResult.dataSync();
+  const tokenizedText = tokenize(text);
 
   res.json({ result: tokenizedText });
-});
+};
