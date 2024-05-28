@@ -1,0 +1,20 @@
+const tf = require('@tensorflow/tfjs-node');
+const { sentences, labels } = require('./data');
+const { tokenize } = require('./tokenizer');
+
+async function createModel() {
+  const sentencesTensor = tokenize(sentences);
+  const labelsTensor = tf.tensor(labels.map(label => label === 'valid' ? 1 : 0));
+
+  const model = tf.sequential();
+  model.add(tf.layers.embedding({inputDim: sentencesTensor.shape[1], outputDim: 50}));
+  model.add(tf.layers.dense({units: 1, activation: 'sigmoid'}));
+
+  model.compile({loss: 'binaryCrossentropy', optimizer: 'rmsprop', metrics: ['accuracy']});
+
+  await model.fit(sentencesTensor, labelsTensor, {epochs: 10});
+
+  await model.save('file://path/to/save/model.json');
+}
+
+createModel();

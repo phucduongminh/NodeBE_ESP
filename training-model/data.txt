@@ -1,0 +1,15 @@
+const sentences = [
+    'turn on the first air conditioner',
+    'turn off the second light',
+    'invalid sentence example',
+    // Add more sentences...
+  ];
+  
+  const labels = [
+    'valid',
+    'valid',
+    'invalid',
+    // Add more labels...
+  ];
+  
+  module.exports = { sentences, labels };
