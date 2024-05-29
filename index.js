@@ -26,6 +26,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 require('./app/routes/user.routes')(app);
 require('./app/routes/brand.routes')(app);
 require('./app/routes/signal.routes')(app);
+require('./app/routes/device.routes')(app);
 require('./app/routes/speech-to-text/speech.routes')(app);
 require('./app/routes/text-processor/processor.routes')(app);
 
