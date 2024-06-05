@@ -1,6 +1,9 @@
 const { wordIndex } = require('./data');
 
-const IGNORED_WORDS = ['the', 'a', 'an', 'please', 'me', 'help']; // Add more words as necessary
+const IGNORED_WORDS = ['the', 'a', 'an', 'please', 'me', 'help', 'again', 'how', 'what', 'at']; // Added 'at'
+const timeWords = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+                  'eleven', 'twelve'];
+const timePeriods = ['a.m', 'p.m'];
 
 function tokenize(sentence) {
   const words = sentence.split(' ');
@@ -10,6 +13,28 @@ function tokenize(sentence) {
     const word = words[i].toLowerCase();
     if (IGNORED_WORDS.includes(word)) {
       continue; // Skip ignored words
+    }
+
+    // Time handling
+    if (timeWords.includes(word)) {
+      let hour = timeWords.indexOf(word) + 1; // Convert word to hour (1-12)
+
+      // Check for 'o'clock'
+      if (words[i + 1]?.toLowerCase() === 'o\'clock') {
+        i++; 
+      }
+
+      // Check for AM/PM
+      let period = words[i + 1]?.toLowerCase();
+      if (timePeriods.includes(period)) {
+        if (period === 'p.m' && hour !== 12) {
+          hour += 12; // Convert to 24-hour format
+        }
+        i++;
+      }
+
+      tokens.push(`${hour}h`); // Add time token
+      continue; // Move to the next word
     }
 
     switch (word) {
@@ -42,6 +67,10 @@ function tokenize(sentence) {
         break;
       case 'second':
         tokens.push('2');
+        break;
+      case 'tv':
+      case 'television':
+        tokens.push('TV');
         break;
       default:
         if (wordIndex[word]) {
