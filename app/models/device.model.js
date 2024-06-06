@@ -118,4 +118,24 @@ Device.checkDeviceId = function (device_id, result) {
   );
 };
 
+Device.checkDeviceIdFromIRData = function (device_id, result) {
+  db.query(
+    "SELECT * FROM ir_data WHERE device_id = ?",
+    [device_id], // Ensure device_id is passed as an array
+    (err, res) => {
+      if (err) {
+        console.error(err);
+        result(err, null);
+        return;
+      }
+      if (res.length) {
+        console.log("Found device with ID: ", device_id);
+        result(null, true); // Device exists
+        return;
+      }
+      result(null, false); // Device does not exist
+    }
+  );
+};
+
 module.exports = Device;

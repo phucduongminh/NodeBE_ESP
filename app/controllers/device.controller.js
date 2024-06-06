@@ -196,3 +196,35 @@ exports.create = async (req, res) => {
     }
   });
 };
+
+exports.checkDeviceIdFromIRData = (req, res) => {
+  if (!req.query.device_id) {
+    return res.status(400).json({
+      success: false,
+      message: "Device ID can not be empty!",
+    });
+  }
+
+  Device.checkDeviceIdFromIRData(req.query.device_id, (err, data) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error checking device ID.",
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Device ID checked",
+        exists: data,
+      });
+    }
+  });
+};
+
+exports.update = (req, res) => {
+
+}
+
+exports.delete = (req, res) => {
+
+}
