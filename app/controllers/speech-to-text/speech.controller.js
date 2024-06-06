@@ -1,17 +1,25 @@
-const speech = require('@google-cloud/speech');
-require('dotenv').config();
+const speech = require("@google-cloud/speech");
+require("dotenv").config();
 
 const client = new speech.SpeechClient();
 
-exports.transcribe = (async (req, res) => {
-  const audioContent = Buffer.from(req.body.audio, 'base64');
+exports.transcribe = async (req, res) => {
+  const audioContent = Buffer.from(req.body.audio, "base64");
+  if (!audioContent) {
+    console.log("No audio content provided");
+    res
+      .status(400)
+      .json({ success: false, error: "No audio content provided" });
+    return;
+  }
   const config = {
-    encoding: 'LINEAR16',
+    encoding: "LINEAR16",
     sampleRateHertz: 16000,
-    languageCode: 'en-US',
+    languageCode: "en-US",
+    //languageCode: "vi-VN",
   };
   const audio = {
-    content: audioContent.toString('base64'), // Ensure this is in base64
+    content: audioContent.toString("base64"), // Ensure this is in base64
   };
   const request = {
     config: config,
@@ -19,9 +27,15 @@ exports.transcribe = (async (req, res) => {
   };
 
   const [response] = await client.recognize(request);
-  const transcription = response.results
-    .map(result => result.alternatives[0].transcript)
-    .join('\n');
-  console.log(`Transcription: ${transcription}`);
-  res.send(transcription);
-});
+  if (response.results.length === 0) {
+    console.log("No speech was detected");
+    res.status(400).json({ success: false, error: "No speech was detected" });
+    return;
+  } else {
+    const transcription = response.results
+      .map((result) => result.alternatives[0].transcript)
+      .join("\n");
+    console.log(`Transcription: ${transcription}`);
+    res.status(200).json({ success: true, text: transcription });
+  }
+};
