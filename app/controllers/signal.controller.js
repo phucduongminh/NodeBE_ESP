@@ -88,3 +88,42 @@ exports.findOne = (req, res) => {
     }
   );
 };
+
+exports.findFakeFirst = (req, res) => {
+  if (!req.query.user_id || !req.query.type_id|| !req.query.button_id) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: "User ID and Device ID can not be empty!",
+      });
+  }
+  Ir_signal.getByUserIdAndTypeId(
+    req.query.user_id,
+    req.query.type_id,
+    req.query.button_id,
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          return res
+            .status(404)
+            .json({
+              success: false,
+              message: `Not found Signal with User ID ${req.query.user_id} and Type ID ${req.query.type_id} and Button ID ${req.query.button_id}.`,
+            });
+        } else {
+          return res
+            .status(500)
+            .json({
+              success: false,
+              message: `Error retrieving Signal with User ID ${req.query.user_id} and Button ID ${req.query.button_id}.`,
+            });
+        }
+      } else {
+        return res
+          .status(200)
+          .json({ success: true, message: "Signal Found", signal: data });
+      }
+    }
+  );
+};
