@@ -31,7 +31,7 @@ Device.getDeviceByUserId = function (user_id, result) {
 
 Device.getDeviceByTypeId = function (type_id, user_id, result) {
   db.query(
-    "SELECT * FROM devices WHERE type_id = ? AND user_id = ?",
+    "SELECT device_id, device_name, Protocol FROM devices WHERE type_id = ? AND user_id = ?",
     [type_id, user_id],
     (err, res) => {
       if (err) {
