@@ -138,4 +138,23 @@ Device.checkDeviceIdFromIRData = function (device_id, result) {
   );
 };
 
+Device.getProtocolById = function (device_id, result) {
+  db.query(
+    "SELECT Protocol FROM devices WHERE device_id = ?",
+    [device_id], // Ensure device_id is passed as an array
+    (err, res) => {
+      if (err) {
+        console.error(err);
+        result(err, null);
+        return;
+      }
+      if (res.length) {
+        result(null, res[0]); // Device exists
+        return;
+      }
+      result({ kind: "not_found" }, null); // Device does not exist
+    }
+  );
+};
+
 module.exports = Device;

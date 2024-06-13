@@ -89,8 +89,8 @@ exports.findOne = (req, res) => {
   );
 };
 
-exports.findFakeFirst = (req, res) => {
-  if (!req.query.user_id || !req.query.type_id|| !req.query.button_id) {
+exports.findForVoice = (req, res) => {
+  if (!req.query.user_id || !req.query.type_id|| !req.query.button_id || !req.query.ordinal) {
     return res
       .status(400)
       .json({
@@ -102,6 +102,7 @@ exports.findFakeFirst = (req, res) => {
     req.query.user_id,
     req.query.type_id,
     req.query.button_id,
+    req.query.ordinal,
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
@@ -109,7 +110,7 @@ exports.findFakeFirst = (req, res) => {
             .status(404)
             .json({
               success: false,
-              message: `Not found Signal with User ID ${req.query.user_id} and Type ID ${req.query.type_id} and Button ID ${req.query.button_id}.`,
+              message: `Not found Signal with User ID ${req.query.user_id} and Type ID ${req.query.type_id} and Button ID ${req.query.button_id} and Ordinal ${req.query.ordinal}.`,
             });
         } else {
           return res

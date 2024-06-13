@@ -41,7 +41,7 @@ Ir_Signal.getByDeviceAndButtonId = function (device_id, button_id, result) {
   );
 };
 
-Ir_Signal.getByUserIdAndTypeId = function (user_id, type_id, button_id, result) {
+Ir_Signal.getByUserIdAndTypeId = function (user_id, type_id, button_id, ordinal, result) {
   db.query(
     "SELECT ir_data.device_id, rawdata_length, rawdata, state_length, state FROM ir_data LEFT JOIN devices " +
       "ON ir_data.device_id = devices.device_id " +
@@ -54,9 +54,9 @@ Ir_Signal.getByUserIdAndTypeId = function (user_id, type_id, button_id, result) 
         result(err, null);
         return;
       }
-      if (res.length) {
-        console.log("Found ir_signal: ", res[0]);
-        result(null, res[0]);
+      if (res.length && res.length >= ordinal && ordinal > 0) {
+        console.log("Found ir_signal: ", res[ordinal-1]);
+        result(null, res[ordinal-1]);
         return;
       }
       result({ kind: "not_found" }, null);
