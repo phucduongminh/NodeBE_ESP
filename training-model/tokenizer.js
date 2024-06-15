@@ -59,8 +59,8 @@ function tokenize(sentence) {
       case 'conditioner':
         tokens.push('AC');
         break;
-      case 'light':
-        tokens.push('LIGHT');
+      case 'fan':
+        tokens.push('FAN');
         break;
       case 'first':
         tokens.push('1');
@@ -84,7 +84,21 @@ function tokenize(sentence) {
 }
 
 function tokenizeSentence(sentence) {
-  return sentence.split(' ').map(word => wordIndex[word.toLowerCase()] || 0); // Use 0 for unknown words
+  const words = sentence.split(' ').map(word => word.toLowerCase());
+  let hasDevice = false;
+  const tokenized = words.map(word => {
+    const token = wordIndex[word] || 0;
+    if (word === 'tv' || word === 'television' || word === 'projector' || word === 'fan' || word === 'conditioner') {
+      hasDevice = true;
+    }
+    return token;
+  });
+
+  // Check if the sentence has a device type
+  if (!hasDevice) {
+    return [0]; // Return an array with a single 0 to indicate invalidity
+  }
+  return tokenized;
 }
 
 function padSequences(sequences, maxLen) {
