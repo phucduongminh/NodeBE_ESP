@@ -31,6 +31,9 @@ exports.process = async (req, res) => {
   }
 
   const tokenizedText = tokenize(text);
+  if (tokenizedText === 'INVALID') {
+    return res.status(400).json({ success: false, error: 'Invalid command' });
+  }
   const response = await tokenToJson(tokenizedText);
 
 

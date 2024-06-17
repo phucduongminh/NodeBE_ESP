@@ -39,8 +39,9 @@ const sentences = [
   'turn up the air conditioner',
   'turn up',
   'turn down the air conditioner',
-  'turn down'
-  // Add more sentences...
+  'turn down',
+  'turn on the air conditioner at five',
+  'turn off the air conditioner at five',
 ];
 
 const labels = [
@@ -85,11 +86,12 @@ const labels = [
   'invalid',
   'invalid',
   'invalid',
-  // Add more labels...
+  'valid',
+  'valid',
 ];
 
-const vocabulary = ['turn', 'on', 'off', 'first', 'second', 'air', 'conditioner', 'fan', 
-'floor', 'help', 'me', 'please', 'the', 'a', 'an', 'TV', 'television', 'projector', 'make', 
+const vocabulary = ['turn', 'on', 'off', 'first', 'second', 'third', 'fourth', 'fifth', 'air', 'conditioner', 'fan', 
+  'floor', 'help', 'me', 'please', 'the', 'a', 'an', 'TV', 'television', 'projector', 'make', 
 'at', 'o\'clock', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
 'eleven', 'twelve', 'a.m', 'p.m'];
 const wordIndex = {};

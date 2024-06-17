@@ -11,6 +11,7 @@ function tokenize(sentence) {
 
   const words = sentence.split(' ');
   const tokens = [];
+  let timeValid = false;
 
   for (let i = 0; i < words.length; i++) {
     const word = words[i].toLowerCase();
@@ -21,6 +22,7 @@ function tokenize(sentence) {
     // Time handling
     if (timeWords.includes(word)) {
       let hour = timeWords.indexOf(word) + 1; // Convert word to hour (1-12)
+      timeValid = true;
 
       // Check for 'o'clock'
       if (words[i + 1]?.toLowerCase() === 'o\'clock') {
@@ -71,6 +73,15 @@ function tokenize(sentence) {
       case 'second':
         tokens.push('2');
         break;
+      case 'third':
+        tokens.push('3');
+        break;
+      case 'fourth':
+        tokens.push('4');
+        break;
+      case 'fifth':
+        tokens.push('5');
+        break;
       case 'tv':
       case 'television':
         tokens.push('TV');
@@ -81,6 +92,10 @@ function tokenize(sentence) {
         }
         break;
     }
+  }
+  
+  if (!timeValid && sentence.includes('at')) {
+    return 'INVALID';
   }
 
   return tokens.join('-');
