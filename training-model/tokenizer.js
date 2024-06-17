@@ -1,11 +1,14 @@
 const { wordIndex } = require('./data');
 
-const IGNORED_WORDS = ['the', 'a', 'an', 'please', 'me', 'help', 'again', 'how', 'what', 'at']; // Added 'at'
+const IGNORED_WORDS = ['the', 'a', 'an', 'please', 'me', 'help', 'again', 'how', 'what', 'at'];
 const timeWords = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
                   'eleven', 'twelve'];
 const timePeriods = ['a.m', 'p.m'];
 
 function tokenize(sentence) {
+  // Replace newline characters and multiple spaces with a single space
+  sentence = sentence.replace(/\s+/g, ' ').trim();
+
   const words = sentence.split(' ');
   const tokens = [];
 
@@ -21,7 +24,7 @@ function tokenize(sentence) {
 
       // Check for 'o'clock'
       if (words[i + 1]?.toLowerCase() === 'o\'clock') {
-        i++; 
+        i++;
       }
 
       // Check for AM/PM
@@ -84,11 +87,14 @@ function tokenize(sentence) {
 }
 
 function tokenizeSentence(sentence) {
+  // Remove newline characters and trim spaces
+  sentence = sentence.replace(/\s+/g, ' ').trim();
+
   const words = sentence.split(' ').map(word => word.toLowerCase());
   let hasDevice = false;
   const tokenized = words.map(word => {
     const token = wordIndex[word] || 0;
-    if (word === 'tv' || word === 'television' || word === 'projector' || word === 'fan' || word === 'conditioner') {
+    if (word === 'tv' || word === 'television' || word === 'projector' || word === 'fan' || word === 'conditioner' || word === 'air') {
       hasDevice = true;
     }
     return token;

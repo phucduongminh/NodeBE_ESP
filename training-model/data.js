@@ -36,6 +36,10 @@ const sentences = [
   'turn off the',
   'turn on fan', 
   'turn on air',
+  'turn up the air conditioner',
+  'turn up',
+  'turn down the air conditioner',
+  'turn down'
   // Add more sentences...
 ];
 
@@ -76,6 +80,10 @@ const labels = [
   'invalid',
   'invalid',
   'valid',
+  'invalid',
+  'invalid',
+  'invalid',
+  'invalid',
   'invalid',
   // Add more labels...
 ];
