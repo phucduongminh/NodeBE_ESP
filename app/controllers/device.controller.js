@@ -221,6 +221,37 @@ exports.checkDeviceIdFromIRData = (req, res) => {
   });
 };
 
+exports.getProtocol = (req, res) => {
+  if (!req.query.device_id) {
+    return res.status(400).json({
+      success: false,
+      message: "Device ID can not be empty!",
+    });
+  }
+
+  Device.getProtocolById(req.query.device_id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        return res.status(404).json({
+          success: false,
+          message: `Not found Device with ID: ${req.query.device_id}.`,
+        });
+      } else {
+        return res.status(500).json({
+          success: false,
+          message: "Error retrieving Device with ID: " + req.query.device_id,
+        });
+      }
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Device found",
+        Protocol: data.Protocol,
+      });
+    }
+  });
+}
+
 exports.update = (req, res) => {
 
 }

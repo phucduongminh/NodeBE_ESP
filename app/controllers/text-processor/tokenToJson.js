@@ -15,7 +15,7 @@ exports.tokenToJson = (token) => {
     if (!isNaN(part) && !part.includes("h")) {
       decoded.ordinal = parseInt(part);
     } else if (part.includes("h")) {
-      decoded.time = parseInt(part);
+      decoded.hour = parseInt(part);
     }
   }
 

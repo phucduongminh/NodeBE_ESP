@@ -31,7 +31,7 @@ Device.getDeviceByUserId = function (user_id, result) {
 
 Device.getDeviceByTypeId = function (type_id, user_id, result) {
   db.query(
-    "SELECT * FROM devices WHERE type_id = ? AND user_id = ?",
+    "SELECT device_id, device_name, Protocol FROM devices WHERE type_id = ? AND user_id = ?",
     [type_id, user_id],
     (err, res) => {
       if (err) {
@@ -134,6 +134,25 @@ Device.checkDeviceIdFromIRData = function (device_id, result) {
         return;
       }
       result(null, false); // Device does not exist
+    }
+  );
+};
+
+Device.getProtocolById = function (device_id, result) {
+  db.query(
+    "SELECT Protocol FROM devices WHERE device_id = ?",
+    [device_id], // Ensure device_id is passed as an array
+    (err, res) => {
+      if (err) {
+        console.error(err);
+        result(err, null);
+        return;
+      }
+      if (res.length) {
+        result(null, res[0]); // Device exists
+        return;
+      }
+      result({ kind: "not_found" }, null); // Device does not exist
     }
   );
 };

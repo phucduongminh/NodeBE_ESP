@@ -7,6 +7,9 @@ router.post("/api/signal/learns/new", signalController.create);
 // Retrieve a Signal by Device ID and Button ID
 router.get("/api/signal/learns/getbyid", signalController.findOne);
 
+// Voice
+router.get("/api/signal/learns/voice/getbyuserid", signalController.findForVoice);
+
 module.exports = function (app) {
   app.use(router);
 };

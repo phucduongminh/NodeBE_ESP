@@ -1,13 +1,17 @@
 const { wordIndex } = require('./data');
 
-const IGNORED_WORDS = ['the', 'a', 'an', 'please', 'me', 'help', 'again', 'how', 'what', 'at']; // Added 'at'
+const IGNORED_WORDS = ['the', 'a', 'an', 'please', 'me', 'help', 'again', 'how', 'what', 'at'];
 const timeWords = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
                   'eleven', 'twelve'];
 const timePeriods = ['a.m', 'p.m'];
 
 function tokenize(sentence) {
+  // Replace newline characters and multiple spaces with a single space
+  sentence = sentence.replace(/\s+/g, ' ').trim();
+
   const words = sentence.split(' ');
   const tokens = [];
+  let timeValid = false;
 
   for (let i = 0; i < words.length; i++) {
     const word = words[i].toLowerCase();
@@ -18,10 +22,11 @@ function tokenize(sentence) {
     // Time handling
     if (timeWords.includes(word)) {
       let hour = timeWords.indexOf(word) + 1; // Convert word to hour (1-12)
+      timeValid = true;
 
       // Check for 'o'clock'
       if (words[i + 1]?.toLowerCase() === 'o\'clock') {
-        i++; 
+        i++;
       }
 
       // Check for AM/PM
@@ -59,14 +64,23 @@ function tokenize(sentence) {
       case 'conditioner':
         tokens.push('AC');
         break;
-      case 'light':
-        tokens.push('LIGHT');
+      case 'fan':
+        tokens.push('FAN');
         break;
       case 'first':
         tokens.push('1');
         break;
       case 'second':
         tokens.push('2');
+        break;
+      case 'third':
+        tokens.push('3');
+        break;
+      case 'fourth':
+        tokens.push('4');
+        break;
+      case 'fifth':
+        tokens.push('5');
         break;
       case 'tv':
       case 'television':
@@ -79,12 +93,33 @@ function tokenize(sentence) {
         break;
     }
   }
+  
+  if (!timeValid && sentence.includes('at')) {
+    return 'INVALID';
+  }
 
   return tokens.join('-');
 }
 
 function tokenizeSentence(sentence) {
-  return sentence.split(' ').map(word => wordIndex[word.toLowerCase()] || 0); // Use 0 for unknown words
+  // Remove newline characters and trim spaces
+  sentence = sentence.replace(/\s+/g, ' ').trim();
+
+  const words = sentence.split(' ').map(word => word.toLowerCase());
+  let hasDevice = false;
+  const tokenized = words.map(word => {
+    const token = wordIndex[word] || 0;
+    if (word === 'tv' || word === 'television' || word === 'projector' || word === 'fan' || word === 'conditioner' || word === 'air') {
+      hasDevice = true;
+    }
+    return token;
+  });
+
+  // Check if the sentence has a device type
+  if (!hasDevice) {
+    return [0]; // Return an array with a single 0 to indicate invalidity
+  }
+  return tokenized;
 }
 
 function padSequences(sequences, maxLen) {

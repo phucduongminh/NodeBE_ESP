@@ -1,6 +1,6 @@
 const sentences = [
   'turn on the first air conditioner',
-  'turn off the second light',
+  'turn off the second fan',
   'invalid sentence example',
   'hello',
   'hi',
@@ -29,8 +29,19 @@ const sentences = [
   'turn off the television',
   'turn off the projector',
   'oh my god',
-  'how'
-  // Add more sentences...
+  'how',
+  'turn on',
+  'turn off',
+  'turn on the',
+  'turn off the',
+  'turn on fan', 
+  'turn on air',
+  'turn up the air conditioner',
+  'turn up',
+  'turn down the air conditioner',
+  'turn down',
+  'turn on the air conditioner at five',
+  'turn off the air conditioner at five',
 ];
 
 const labels = [
@@ -64,12 +75,23 @@ const labels = [
   'valid',
   'valid',
   'invalid',
-  'invalid'
-  // Add more labels...
+  'invalid',
+  'invalid',
+  'invalid',
+  'invalid',
+  'invalid',
+  'valid',
+  'invalid',
+  'invalid',
+  'invalid',
+  'invalid',
+  'invalid',
+  'valid',
+  'valid',
 ];
 
-const vocabulary = ['turn', 'on', 'off', 'first', 'second', 'air', 'conditioner', 'light', 
-'floor', 'help', 'me', 'please', 'the', 'a', 'an', 'TV', 'television', 'projector', 'make', 
+const vocabulary = ['turn', 'on', 'off', 'first', 'second', 'third', 'fourth', 'fifth', 'air', 'conditioner', 'fan', 
+  'floor', 'help', 'me', 'please', 'the', 'a', 'an', 'TV', 'television', 'projector', 'make', 
 'at', 'o\'clock', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
 'eleven', 'twelve', 'a.m', 'p.m'];
 const wordIndex = {};
