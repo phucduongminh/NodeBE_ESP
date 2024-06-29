@@ -1,3 +1,4 @@
+//Liệt kê những đoạn văn bản mẫu
 const sentences = [
   'turn on the first air conditioner',
   'turn off the second fan',
@@ -6,24 +7,24 @@ const sentences = [
   'hi',
   '',
   'turn on the second air conditioner',
-  'on first conditioner',//
+  'on first conditioner',
   'on second air',
-  'turn on first air conditioner',//
-  'please turn on the first air conditioner',//
-  'turn on air conditioner first',//
-  'turn on projector',//
+  'turn on first air conditioner',
+  'please turn on the first air conditioner',
+  'turn on air conditioner first',
+  'turn on projector',
   'say something',
   'test mic',
-  'test mic again',//
-  'make the air conditioner turn on',//
-  'make the air conditioner turn off',//
-  'make conditioner turn on',//
-  'make conditioner turn off',//
-  'make the air conditioner cooler',//
+  'test mic again',
+  'make the air conditioner turn on',
+  'make the air conditioner turn off',
+  'make conditioner turn on',
+  'make conditioner turn off',
+  'make the air conditioner cooler',
   'turn left',
-  'oh no',//
-  'turn on the TV',//
-  'turn on the television',//
+  'oh no',
+  'turn on the TV',
+  'turn on the television',
   'turn on the projector',
   'turn off the TV',
   'turn off the television',
@@ -44,17 +45,18 @@ const sentences = [
   'turn off the air conditioner at five',
 ];
 
+//Gán nhãn cho chúng là valid (hợp lệ) hoặc invalid (không hợp lệ)
 const labels = [
   'valid',
   'valid',
   'invalid',
-  'invalid', //
-  'invalid', //
-  'invalid', //
-  'valid', //
-  'valid',//
-  'invalid',//
-  'valid',//
+  'invalid', 
+  'invalid', 
+  'invalid', 
+  'valid', 
+  'valid',
+  'invalid',
+  'valid',
   'valid',
   'valid',
   'valid',
