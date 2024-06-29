@@ -1,10 +1,10 @@
-const speech = require("@google-cloud/speech");
+const speech = require("@google-cloud/speech"); //Sử dụng thư viện google-cloud/speech
 require("dotenv").config();
 
-const client = new speech.SpeechClient();
+const client = new speech.SpeechClient(); //Không cần thêm key vì đã có file key.json
 
 exports.transcribe = async (req, res) => {
-  const audioContent = Buffer.from(req.body.audio, "base64");
+  const audioContent = Buffer.from(req.body.audio, "base64"); //Lấy chuỗi base64 của file audio
   if (!audioContent) {
     console.log("No audio content provided");
     res
@@ -14,8 +14,8 @@ exports.transcribe = async (req, res) => {
   }
   const config = {
     encoding: "LINEAR16",
-    sampleRateHertz: 16000,
-    languageCode: "en-US",
+    sampleRateHertz: 16000, //16k Hz
+    languageCode: "en-US", //Hiện tại, chưa xử lý được điều khiển bằng tiếng Việt
     //languageCode: "vi-VN",
   };
   const audio = {
