@@ -252,10 +252,50 @@ exports.getProtocol = (req, res) => {
   });
 }
 
-exports.update = (req, res) => {
+exports.updateProtocol = (req, res) => {
+  let Protocol;
+  if (!req.query.device_id) {
+    return res.status(400).json({
+      success: false,
+      message: "Device ID can not be empty!",
+    });
+  }
 
-}
+  if (!req.query.Protocol) {
+    Protocol = null
+  } else {
+    Protocol = req.query.Protocol
+  }
 
-exports.delete = (req, res) => {
+  if (req.query.Protocol === "UNKNOWN"){
+    return res.status(400).json({
+      success: false,
+      message: "Invalid protocol!",
+    });
+  }
 
-}
+  Device.addProtocol(req.query.device_id, Protocol, (err, data) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message:
+          err.message || "Some error occurred while updating the device.",
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Device protocol updated successfully!",
+        device_id: data.device_id,
+        Protocol: data.protocol,
+      });
+    }
+  });
+};
+
+// exports.update = (req, res) => {
+
+// }
+
+// exports.delete = (req, res) => {
+
+// }
