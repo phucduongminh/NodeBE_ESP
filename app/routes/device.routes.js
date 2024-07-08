@@ -14,7 +14,8 @@ router.get('/api/device/checkdeviceid', deviceController.checkDeviceIdFromIRData
 // router.delete('/api/device/delete', deviceController.delete);
 //Get Protocol by Id
 router.get('/api/device/getprotocolbyid', deviceController.getProtocol);
-
+//Update Protocol
+router.put('/api/device/updateprotocol', deviceController.updateProtocol);
 
 module.exports = function (app) {
     app.use(router);

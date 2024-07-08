@@ -157,4 +157,60 @@ Device.getProtocolById = function (device_id, result) {
   );
 };
 
+Device.addProtocol = function (device_id, protocol, result) {
+  db.query(
+    "UPDATE devices SET Protocol = ? WHERE device_id = ?",
+    [protocol, device_id],
+    (err, res) => {
+      if (err) {
+        console.error(err);
+        result(err, null);
+        return;
+      }
+      console.log("Updated device protocol: ", { device_id, protocol });
+      result(null, { device_id, protocol });
+    }
+  );
+};
+
+// Device.update = function (device_id, device, result) {
+//   db.query(
+//     "UPDATE devices SET device_name = ?, type_id = ?, Protocol = ? WHERE device_id = ?",
+//     [device.device_name, device.type_id, device.Protocol, device_id],
+//     (err, res) => {
+//       if (err) {
+//         console.error(err);
+//         result(err, null);
+//         return;
+//       }
+//       if (res.affectedRows == 0) {
+//         result({ kind: "not_found" }, null);
+//         return;
+//       }
+//       console.log("Updated device: ", { device_id, ...device });
+//       result(null, { device_id, ...device });
+//     }
+//   );
+// };
+
+// Device.delete = function (device_id, result) {
+//   db.query(
+//     "DELETE FROM devices WHERE device_id = ?",
+//     [device_id],
+//     (err, res) => {
+//       if (err) {
+//         console.error(err);
+//         result(err, null);
+//         return;
+//       }
+//       if (res.affectedRows == 0) {
+//         result({ kind: "not_found" }, null);
+//         return;
+//       }
+//       console.log("Deleted device with ID: ", device_id);
+//       result(null, { device_id });
+//     }
+//   );
+// };
+
 module.exports = Device;
