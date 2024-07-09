@@ -1,9 +1,7 @@
 const speech = require("@google-cloud/speech"); //Sử dụng thư viện google-cloud/speech
 require("dotenv").config();
 
-const client = new speech.SpeechClient({
-  credentials: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-});
+const client = new speech.SpeechClient(); //Không cần thêm key vì đã có file key.json
 
 exports.transcribe = async (req, res) => {
   const audioContent = Buffer.from(req.body.audio, "base64"); //Lấy chuỗi base64 của file audio
