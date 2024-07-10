@@ -254,27 +254,27 @@ exports.getProtocol = (req, res) => {
 
 exports.updateProtocol = (req, res) => {
   let Protocol;
-  if (!req.query.device_id) {
+  if (!req.body.device_id) {
     return res.status(400).json({
       success: false,
       message: "Device ID can not be empty!",
     });
   }
 
-  if (!req.query.Protocol) {
+  if (!req.body.Protocol) {
     Protocol = null
   } else {
-    Protocol = req.query.Protocol
+    Protocol = req.body.Protocol
   }
 
-  if (req.query.Protocol === "UNKNOWN"){
+  if (req.body.Protocol === "UNKNOWN"){
     return res.status(400).json({
       success: false,
       message: "Invalid protocol!",
     });
   }
 
-  Device.addProtocol(req.query.device_id, Protocol, (err, data) => {
+  Device.addProtocol(req.body.device_id, Protocol, (err, data) => {
     if (err) {
       return res.status(500).json({
         success: false,
