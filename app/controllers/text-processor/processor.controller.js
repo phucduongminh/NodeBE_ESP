@@ -1,7 +1,7 @@
 const tf = require("@tensorflow/tfjs-node");
 const { tokenize, tokenizeSentence, padSequences } = require("../../../training-model/tokenizer");
 const { vocabulary } = require("../../../training-model/data");
-const { tokenToJson } = require("./tokenToJson")
+const { tokenToJson, convertTimeExpressions } = require("./tokenToJson")
 
 let classificationModel;
 
@@ -14,12 +14,15 @@ loadModels();
 const maxLen = 10; // Use the same maxLen as during training
 
 exports.process = async (req, res) => {
-  const { text } = req.body;
+  const {text} = req.body;
+  let sentence;
   if (!text) {
     return res.status(400).json({ success: false, error: 'Missing "text" property in request body' });
+  } else {
+    sentence = convertTimeExpressions(text);
   }
 
-  const tokenizedInput = tokenizeSentence(text);
+  const tokenizedInput = tokenizeSentence(sentence);
   const paddedInput = padSequences([tokenizedInput], maxLen);
   const inputTensor = tf.tensor2d(paddedInput, [1, maxLen]);
 
@@ -30,7 +33,7 @@ exports.process = async (req, res) => {
     return res.status(400).json({ success: false, error: 'Invalid command' });
   }
 
-  const tokenizedText = tokenize(text);
+  const tokenizedText = tokenize(sentence);
   if (tokenizedText === 'INVALID') {
     return res.status(400).json({ success: false, error: 'Invalid command' });
   }
