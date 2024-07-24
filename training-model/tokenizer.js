@@ -109,7 +109,7 @@ function tokenizeSentence(sentence) {
   let hasDevice = false;
   const tokenized = words.map(word => {
     const token = wordIndex[word] || 0;
-    if (word === 'tv' || word === 'television' || word === 'projector' || word === 'fan' || word === 'conditioner' || word === 'air') {
+    if (word === 'tv' || word === 'television' || word === 'projector' || word === 'fan' || word === 'conditioner') {
       hasDevice = true;
     }
     return token;
